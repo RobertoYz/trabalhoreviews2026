@@ -1,4 +1,4 @@
-const URL_BASE = window.location.origin;
+const URL_BASE = 'trabalhoreviews2026-production.up.railway.app';
 
 function verificarAutenticacao() {
     const token = localStorage.getItem('token');
