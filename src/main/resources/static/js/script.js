@@ -1,8 +1,9 @@
-const URL_BASE = 'trabalhoreviews2026-production.up.railway.app';
+const URL_BASE = 'https://trabalhoreviews2026-production.up.railway.app';
 
 function verificarAutenticacao() {
     const token = localStorage.getItem('token');
-    if (!token && window.location.pathname.endsWith('index.html')) {
+
+    if (!token && !window.location.pathname.endsWith('login.html')) {
         window.location.href = 'login.html';
     }
     return token;
@@ -10,8 +11,9 @@ function verificarAutenticacao() {
 
 function login(event) {
     event.preventDefault();
-    const email = document.getElementById('email').value;
-    const senha = document.getElementById('senha').value;
+
+    const email = document.getElementById('email').value.trim();
+    const senha = document.getElementById('senha').value.trim();
 
     fetch(`${URL_BASE}/login`, {
         method: 'POST',
@@ -20,11 +22,13 @@ function login(event) {
     })
     .then(resposta => {
         if (resposta.ok) return resposta.json();
-        throw new Error('Credenciais inválidas');
+
+        console.log("A API recusou o acesso. Status do Erro: " + resposta.status);
+        throw new Error('Credenciais inválidas. Verifique letras maiúsculas!');
     })
     .then(dados => {
         localStorage.setItem('token', dados.token);
-        window.location.href = 'index.html';
+        window.location.href = '/';
     })
     .catch(erro => {
         document.getElementById('mensagemErro').innerHTML = erro.message;
@@ -112,10 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.endsWith('login.html')) {
         document.getElementById('formularioLogin').addEventListener('submit', login);
     }
-
-    if (window.location.pathname.endsWith('index.html')) {
+    else {
         verificarAutenticacao();
-        carregarJogos();
-        document.getElementById('formularioJogo').addEventListener('submit', salvarJogo);
+        if (localStorage.getItem('token')) {
+            carregarJogos();
+            document.getElementById('formularioJogo').addEventListener('submit', salvarJogo);
+        }
     }
 });
