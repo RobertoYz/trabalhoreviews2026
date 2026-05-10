@@ -118,7 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     else {
         verificarAutenticacao();
+
         if (localStorage.getItem('token')) {
+            const conteudo = document.getElementById('conteudoPrincipal');
+            if(conteudo) {
+                conteudo.style.display = 'block';
+            }
+
             carregarJogos();
             document.getElementById('formularioJogo').addEventListener('submit', salvarJogo);
         }
