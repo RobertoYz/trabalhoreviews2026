@@ -1,4 +1,4 @@
-const URL_BASE = window.location.origin; 
+const URL_BASE = window.location.origin;
 
 function verificarAutenticacao() {
     const token = localStorage.getItem('token');
@@ -100,7 +100,7 @@ function editarJogo(id) {
 }
 
 function deletarJogo(id) {
-    if (confirm('Tem certeza que deseja deletar este jogo?')) {
+    if (confirm('Tem certeza que deseja deletar esta review?')) {
         fetch(`${URL_BASE}/jogos/${id}`, { method: 'DELETE' })
             .then(() => carregarJogos());
     }
